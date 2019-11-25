@@ -61,4 +61,18 @@ extract = content(myData)
 #converts into dataframe
 githubDB = jsonlite::fromJSON(jsonlite::toJSON(extract))
 githubDB$login
+# Retrieve a list of usernames
+id = githubDB$login
+user_ids = c(id)
+
+# Create an empty vector and data.frame
+users = c()
+usersDB = data.frame(
+  username = integer(),
+  following = integer(),
+  followers = integer(),
+  repos = integer(),
+  dateCreated = integer()
+)
+
 
