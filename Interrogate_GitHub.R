@@ -4,6 +4,7 @@ install.packages("httpuv")
 library(httpuv)
 install.packages("httr")
 library(httr)
+install.packages("plotly")
 
 # Can be github, linkedin etc depending on application
 oauth_endpoints("github")
@@ -45,7 +46,7 @@ following=fromJSON("https://api.github.com/users/ebroderi/following")
 following$login #usernames of people I follow
 
 myData$public_repos #number of repositories
-repos = fromJSON("https://api://api.github.com/users/ebroderi/repos")
+repos = fromJSON("https://api.github.com/users/ebroderi/repos")
 repos$name #details of names of repositories
 repos$created_at #date of creation of repositories
 repos$full_name #names of repositories
