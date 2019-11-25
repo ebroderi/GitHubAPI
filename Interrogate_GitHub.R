@@ -33,13 +33,31 @@ gitDF = jsonlite::fromJSON(jsonlite::toJSON(json1))
 gitDF[gitDF$full_name == "ebroderi/datasharing", "created_at"] 
 
 
-#get data from fabpot's github
-myData=fromJSON("https://api.github.com/users/fabpot")
+#get data from my github
+myData=fromJSON("https://api.github.com/users/ebroderi")
 myData$followers # number of followers
 #get followers
-followers=fromJSON("https://api.github.com/users/fabpot/followers")
+followers=fromJSON("https://api.github.com/users/ebroderi/followers")
 followers$login #usernames of followers
-myData$following #how many users fabpot follows
+myData$following #how many users I follow
 
-following=fromJSON("https://api.github.com/users/fabpot/following")
-following$login #usernames of people fabpot follows
+following=fromJSON("https://api.github.com/users/ebroderi/following")
+following$login #usernames of people I follow
+
+myData$public_repos #number of repositories
+repos = fromJSON("https://api://api.github.com/users/ebroderi/repos")
+repos$name #details of names of repositories
+repos$created_at #date of creation of repositories
+repos$full_name #names of repositories
+
+myData$bio #Display bio 
+
+
+#Part 2 
+myData = GET("https://api.github.com/users/andrew/followers?per_page=100;", gtoken)
+stop_for_status(myData)
+extract = content(myData)
+#converts into dataframe
+githubDB = jsonlite::fromJSON(jsonlite::toJSON(extract))
+githubDB$login
+
