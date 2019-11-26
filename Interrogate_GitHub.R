@@ -141,3 +141,6 @@ plot1
 #Send plot to plotly interface
 api_create(plot1, filename = "Repositories vs Followers")
 
+#plot two: followers vs following coloured by year 
+plot2=plot_ly(data = usersDB, x = ~following, y = ~followers, text = ~paste("Followers: ", followers, "<br>Following: ", following), color = ~dateCreated)
+plot2
