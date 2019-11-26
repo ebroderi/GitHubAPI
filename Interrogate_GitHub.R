@@ -132,9 +132,12 @@ for(i in 1:length(user_ids)){
 }
 #Link plotly account 
 Sys.setenv("plotly_username"="ebroderi")
-Sys.setenv("plotly_api_key"="aamvyiyr47")
+Sys.setenv("plotly_api_key"="6oZuCqx0PRvoE6d7Wtdt")
 
 library(plotly)
 #plot one: repositories vs followers coloured by year
 plot1 = plot_ly(data = usersDB, x = ~repos, y = ~followers, text = ~paste("Followers: ", followers, "<br>Repositories: ", repos, "<br>Date Created:", dateCreated), color = ~dateCreated)
 plot1
+#Send plot to plotly interface
+api_create(plot1, filename = "Repositories vs Followers")
+
