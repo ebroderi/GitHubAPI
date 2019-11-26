@@ -75,4 +75,52 @@ usersDB = data.frame(
   dateCreated = integer()
 )
 
-
+#add 10 users to list 
+for(i in 1:length(user_ids)){
+  
+  followingURL = paste("https://api.github.com/users/", user_ids[i], "/following", sep = "")
+  followingRequest = GET(followingURL, gtoken)
+  followingContent = content(followingRequest)
+  
+  #Does not add users if they have no followers
+  if(length(followingContent) == 0)
+  {
+    next
+  }
+  
+  followingDF = jsonlite::fromJSON(jsonlite::toJSON(followingContent))
+  followingLogin = followingDF$login
+  
+  #Loop through 'following' users
+  for (j in 1:length(followingLogin))
+  {
+    #Check for duplicate users
+    if (is.element(followingLogin[j], users) == FALSE)
+    {
+      #Adds user to the current list
+      users[length(users) + 1] = followingLogin[j]
+      
+      #Obtain information from each user
+      followingUrl2 = paste("https://api.github.com/users/", followingLogin[j], sep = "")
+      following2 = GET(followingUrl2, gtoken)
+      followingContent2 = content(following2)
+      followingDF2 = jsonlite::fromJSON(jsonlite::toJSON(followingContent2))
+      
+      #Retrieves who user is following
+      followingNumber = followingDF2$following
+      
+      #Retrieves users followers
+      followersNumber = followingDF2$followers
+      
+      #Retrieves how many repository the user has 
+      reposNumber = followingDF2$public_repos
+      
+      #Retrieve year which each user joined Github
+      yearCreated = substr(followingDF2$created_at, start = 1, stop = 4)
+      
+      #Add users data to a new row in dataframe
+      usersDB[nrow(usersDB) + 1, ] = c(followingLogin[j], followingNumber, followersNumber, reposNumber, yearCreated)
+      
+    }
+    next
+  }
