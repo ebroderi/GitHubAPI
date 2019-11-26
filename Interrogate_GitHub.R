@@ -124,3 +124,9 @@ for(i in 1:length(user_ids)){
     }
     next
   }
+  if(length(users) > 150)
+  {
+    break
+  }
+  next
+}
