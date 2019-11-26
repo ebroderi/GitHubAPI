@@ -130,3 +130,6 @@ for(i in 1:length(user_ids)){
   }
   next
 }
+#Link plotly account 
+Sys.setenv("plotly_username"="ebroderi")
+Sys.setenv("plotly_api_key"="aamvyiyr47")
