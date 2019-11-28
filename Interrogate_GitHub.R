@@ -75,7 +75,7 @@ usersDB = data.frame(
   dateCreated = integer()
 )
 
-#add 10 users to list 
+#add 150 users to list 
 for(i in 1:length(user_ids)){
   
   followingURL = paste("https://api.github.com/users/", user_ids[i], "/following", sep = "")
@@ -146,3 +146,5 @@ plot2=plot_ly(data = usersDB, x = ~following, y = ~followers, text = ~paste("Fol
 plot2
 #Send plot to plotly interface
 api_create(plot2, filename = "Following vs Followers")
+
+
