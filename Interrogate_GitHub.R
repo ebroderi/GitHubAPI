@@ -147,4 +147,48 @@ plot2
 #Send plot to plotly interface
 api_create(plot2, filename = "Following vs Followers")
 
+#plot 3: top 10 languages used by the same 250 users.
+languages = c()
+
+for (i in 1:length(users))
+{
+  RepositoriesUrl = paste("https://api.github.com/users/", users[i], "/repos", sep = "")
+  Repositories = GET(RepositoriesUrl, gtoken)
+  RepositoriesContent = content(Repositories)
+  RepositoriesDF = jsonlite::fromJSON(jsonlite::toJSON(RepositoriesContent))
+  RepositoriesNames = RepositoriesDF$name
+  
+  #Loop through all the repositories of an individual user
+  for (j in 1: length(RepositoriesNames))
+  {
+    #Find all repositories and save in data frame
+    RepositoriesUrl2 = paste("https://api.github.com/repos/", users[i], "/", RepositoriesNames[j], sep = "")
+    Repositories2 = GET(RepositoriesUrl2, gtoken)
+    RepositoriesContent2 = content(Repositories2)
+    RepositoriesDF2 = jsonlite::fromJSON(jsonlite::toJSON(RepositoriesContent2))
+    language = RepositoriesDF2$language
+    
+    #Removes repositories containing no specific languages
+    if (length(language) != 0 && language != "<NA>")
+    {
+      languages[length(languages)+1] = language
+    }
+    next
+  }
+  next
+}
+
+allLanguages = sort(table(languages), increasing=TRUE)
+top10Languages = allLanguages[(length(allLanguages)-9):length(allLanguages)]
+
+languageDF = as.data.frame(top10Languages)
+
+plot3 = plot_ly(data = languageDF, x = languageDF$languages, y = languageDF$Freq, type = "bar")
+plot3
+
+#send plot to plotly interface
+Sys.setenv("plotly_username"="ebroderi")
+Sys.setenv("plotly_api_key"="6oZuCqx0PRvoE6d7Wtdt")
+api_create(plot3, filename = "Top 10 Languages")
+
 
